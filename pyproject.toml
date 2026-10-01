@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+# Distribution name is provisional: "precedent" is taken on PyPI (reserved
+# Sept 2026 by an unrelated project). Final name decision before M4.
+name = "precedent-traces"
+version = "0.0.1.dev0"
+description = "Structural retrieval over agent traces: index recorded runs by what the agent did, not what the words say."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [{ name = "Nabira Rashid", email = "nabira.rashidm@gmail.com" }]
+keywords = ["agents", "traces", "retrieval", "observability", "evaluation"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/precedent"]
