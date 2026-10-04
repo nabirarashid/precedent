@@ -22,7 +22,18 @@ Three stages, built on trace formats teams already emit (OpenTelemetry GenAI con
 2. **Canonicalize** each run into a *structural signature*: the tool-call dependency graph with arguments abstracted to types and roles, plus retry and backtrack markers. The signature deliberately excludes the surface features the paper showed retrieval wrongly anchors on. See [docs/trace-record-schema.md](docs/trace-record-schema.md) for the v0 record schema.
 3. **Index and compare** on signatures: structural similarity first, with lexical features quarantined into an explicit diagnostic ("this match is structural" vs. "this match is token overlap").
 
-Which capability leads v0.1, `find_similar(run)` or `cluster(failures)`, is an open question currently being settled by an evidence study of public builder demand signals (in progress). Both are planned; the evidence picks the headline.
+Which capability leads v0.1, `find_similar(run)` or `cluster(failures)`, is an open question currently being settled by an evidence study of public builder demand signals ([docs/evidence/corpus-log.md](docs/evidence/corpus-log.md), in progress). Both are planned; the evidence picks the headline.
+
+## What a signature looks like
+
+The schema is implemented and loading real traces. Here is an actual SWE-agent run (Claude 3.7 Sonnet fixing a GitHub issue, from the public SWE-smith trajectory release), reduced to its structural skeleton by the exploration loader:
+
+```
+bash.find → editor.view → bash.grep → editor.view → editor.view → editor.create
+→ bash.cd → editor.str_replace → bash.cd → editor.str_replace → … → submit
+```
+
+Locate, read, probe, edit, test, submit — the behavior is legible with every variable name, file path, and prompt token quarantined. Working notes from first contact with real traces, including five spec requirements this surfaced, live in [docs/notes/m1-spec-notes.md](docs/notes/m1-spec-notes.md).
 
 ## The eval ships with it
 
@@ -32,11 +43,35 @@ Precedent will not ask to be trusted. v0.1 ships with a side-by-side evaluation 
 
 A library and CLI. Explicitly not: an observability platform, an agent framework, a memory-as-a-service product, or anything hosted. No UI in v0.1.
 
+## Repository layout
+
+```
+src/precedent/records.py      # v0 schema as code: TraceRecord/Step with enforced
+                              # structural / surface / metadata field quarantine
+tests/                        # schema guarantees as tests (quarantine fails closed)
+scripts/load_sample_traces.py # exploration: stream real SWE-agent trajectories
+                              # into TraceRecords, print proto-signatures
+docs/trace-record-schema.md   # the v0 record schema (the ingest contract)
+docs/notes/m1-spec-notes.md   # signature-spec requirements learned from real data
+docs/evidence/corpus-log.md   # M0 evidence study: demand-signal corpus + method
+```
+
+To run it yourself:
+
+```
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e . pytest
+python -m pytest tests/ -q          # 7 tests on the schema guarantees
+pip install datasets
+python scripts/load_sample_traces.py  # streams 5 real traces, prints signatures
+```
+
 ## Status
 
 - [x] Problem measured (arXiv:2609.01556)
-- [x] v0 trace record schema defined ([docs/trace-record-schema.md](docs/trace-record-schema.md))
-- [ ] Evidence study: headline-feature decision (in progress)
+- [x] v0 trace record schema defined ([docs/trace-record-schema.md](docs/trace-record-schema.md)) and implemented ([src/precedent/records.py](src/precedent/records.py), tested)
+- [x] Real coding-agent traces loading into the schema; first legible structural signatures ([docs/notes/m1-spec-notes.md](docs/notes/m1-spec-notes.md))
+- [ ] Evidence study: headline-feature decision (in progress, [docs/evidence/corpus-log.md](docs/evidence/corpus-log.md))
 - [ ] Structural signature spec
 - [ ] Canonicalizer
 - [ ] Retrieval + benchmark harness
