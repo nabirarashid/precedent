@@ -21,23 +21,28 @@
 | 011 | https://hn.algolia.com (Ask HN: knowledge graphs for LLM agent memory, mbbah) | 2025 | HN | "One core challenge I keep hitting: managing evolving memory and context... once agents need to maintain structured knowledge, track state, or coordinate multi-step tasks, things get messy fast." | Y | retrieval-pain | ? |
 | 012 | https://hn.algolia.com (Launch HN: Airbyte Agents, mtricot) | 2026-05 | HN | "What got us working on this was an insane trace from an agent we were migrating... The trace had 47 steps... when the Agent finally responded, the answer sounded ok, but was wrong." | Y | debugging-pain | ? |
 
+| 013 | https://hn.algolia.com (Launch HN: Sentrial YC W26, anayrshukla) | 2026-03 | HN | "debugging agents was often harder than actually building them... When agents fail, choose wrong tools, or blow cost budgets, there's no way to know why - usually just logs and guesswork." (pain lived at SenseHQ/Accenture before founding) | Y | debugging-pain | ? |
+| 014 | https://hn.algolia.com (Show HN: WatchLLM, Kaadz) | 2026-01 | HN | "When your agent makes 20 tool calls and fails, good luck figuring out which decision was wrong... Agents love getting stuck in loops... 'loop detected - same action repeated 3x'" | Y | debugging-pain | ? |
+| 015 | https://hn.algolia.com (Show HN: plomp, michaelgiba) | 2024 | HN | "programs which are prompting LLMs many times or using complicated contexts... I had noticed that having this layer for debugging would be useful for some of my other side projects so I decided to pull it out" (personal OSS tool, no product) | Y | neither-adjacent | |
+
 ## Running tally
 
 | Tag | Count |
 |-----|-------|
 | retrieval-pain | 5 |
-| debugging-pain | 5 |
-| neither-but-adjacent | 2 |
+| debugging-pain | 7 |
+| neither-but-adjacent | 3 |
 | neither | 0 |
-| **Total admitted** | **12** |
+| **Total admitted** | **15** |
 
-**Interim read (Oct 4):** 10 of 12 artifacts show one of the two pains — far above the ~15% kill line. Retrieval vs. debugging is a dead heat; headline-feature verdict stays open pending remaining corpus + warm conversations.
+**Interim read (Oct 4):** 12 of 15 artifacts show one of the two pains — far above the ~15% kill line. Debugging leads the raw count, but the carrier pattern differs: most debugging-pain artifacts are founders describing the pain they then commercialized (Sentrial, WatchLLM, Telem, Cortexa), while retrieval-pain artifacts are builders describing unserved needs. Working hypothesis to test against the remaining corpus + conversations: debugging-pain is real and already being commercialized (hosted monitors); retrieval-pain is real and unserved (open wedge for a library). Verdict stays open.
 
 ## Memo notes (context, not corpus data)
 
 - Langfuse founder-authored "compare metrics across versions/releases" (#3259) sat 10 months, closed as not planned — incumbent declined cross-run comparison.
 - mem0 maintainers route eval demand to their own benchmark suite (BEAM: contradiction resolution, knowledge update, temporal reasoning). Letta runs a memory leaderboard. Incumbents benchmark *memory behavior*; nobody in any opened thread benchmarks *retrieval over execution traces*.
 - Letta #3115 locked by maintainer (cpacker) as "AI slopfest" — maintainer-confirmed slop contamination in these trackers; validates the strict inclusion rule.
+- Hosted agent-failure monitoring is an emerging commercial category: Sentrial (YC W26) and WatchLLM both detect loop/repeated-action patterns — signature-shaped failure detection as a hosted monitor. Nobody observed so far ships library-over-existing-trace-store.
 - Closest commercial neighbor observed: Cortexa (HN, Mar 2026) — "agent decision forensics," memory write governance, hosted. Same thesis (traces underused), different wedge (platform vs. library).
 - alibaizhanov (mem0 #4573 comment, vendor, excluded): extraction abstraction loss — "loyalty number LR-11560 became 'has a loyalty number'" — surface-form information loss in the wild.
 - Lexical pollution meta-finding: GitHub search for "similar trace" in langfuse matched support-bot boilerplate ("I found a similar discussion..."); letta "past" matched MemGPT's own system prompt. Token-level search failing on exactly the corpus about token-level search failing.
@@ -54,6 +59,7 @@
 | Oct 4 | letta-gh issues | "past" | ~87 | 0 (system-prompt pollution) |
 | Oct 4 | letta-gh #3115 | thread-mine | 14 comments | 0 (locked as slop by maintainer) |
 | Oct 4 | HN Algolia | "trace retrieval" | 52 | 5 |
+| Oct 4 | HN Algolia | "debugging agents" | 6 | 3 |
 
 ## Still to search (next sessions)
 
