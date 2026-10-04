@@ -41,6 +41,18 @@ def classify_arg(token: str) -> str:
         return "flag"
     return "text"
 
+def canonical_tool(step: Step) -> str:
+    """Spec notes #2 and #3, prototyped: lift sub-actions, split bash by program."""
+    if step.tool_name == "bash":
+        cmd = str(step.arg_values.get("command", ""))
+        tokens = cmd.split()
+        prog = tokens[0].rsplit("/", 1)[-1] if tokens else "?"
+        if prog in ("python", "python3") and len(tokens) > 2 and tokens[1] == "-m":
+            return f"bash.python -m {tokens[2]}"
+        return f"bash.{prog}"
+    if step.tool_name == "str_replace_editor":
+        return f"editor.{step.arg_values.get('command', '?')}"
+    return step.tool_name or "unknown"
 
 def get_messages(row: dict) -> list:
     m = row.get("messages") or row.get("conversations") or []
@@ -163,11 +175,9 @@ def main() -> None:
         tool_calls = [s for s in rec.steps if s.kind == StepKind.TOOL_CALL]
         print(f"\n--- {rec.run_id} (task {rec.task_id}, outcome={rec.outcome_label.value}) ---")
         print(f"steps: {len(rec.steps)} total, {len(tool_calls)} tool calls")
-        for s in tool_calls[:15]:
-            print(f"  [{s.step_index:3d}] {s.tool_name}  args={s.arg_types}")
-        if len(tool_calls) > 15:
-            print(f"  ... and {len(tool_calls) - 15} more tool calls")
-
+        sig = " → ".join(canonical_tool(s) for s in tool_calls)
+        print(f"signature: {sig}")
+        
     print("\nDone. The tool-call sequences above are proto-signatures: real runs")
     print("reduced to shape, surface text quarantined. Note what looks wrong.")
 
