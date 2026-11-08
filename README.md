@@ -22,7 +22,7 @@ Three stages, built on trace formats teams already emit (OpenTelemetry GenAI con
 2. **Canonicalize** each run into a *structural signature*: the tool-call dependency graph with arguments abstracted to types and roles, plus retry and backtrack markers. The signature deliberately excludes the surface features the paper showed retrieval wrongly anchors on. See [docs/trace-record-schema.md](docs/trace-record-schema.md) for the v0 record schema.
 3. **Index and compare** on signatures: structural similarity first, with lexical features quarantined into an explicit diagnostic ("this match is structural" vs. "this match is token overlap").
 
-Which capability leads v0.1, `find_similar(run)` or `cluster(failures)`, is an open question currently being settled by an evidence study of public builder demand signals ([docs/evidence/corpus-log.md](docs/evidence/corpus-log.md), in progress). Both are planned; the evidence picks the headline.
+A 30-artifact evidence study ([docs/evidence/findings-memo.md](docs/evidence/findings-memo.md)) points to `find_similar(run)` leading v0.1, with `cluster(failures)` as the fast-follow; the verdict is provisional pending practitioner conversations.
 
 ## What a signature looks like
 
@@ -73,7 +73,7 @@ python scripts/load_sample_traces.py  # streams 5 real traces, prints signatures
 - [x] Real coding-agent traces loading into the schema; first legible structural signatures ([docs/notes/m1-spec-notes.md](docs/notes/m1-spec-notes.md))
 - [x] Evidence study: corpus complete (30 artifacts, closed Nov 8 — [docs/evidence/corpus-log.md](docs/evidence/corpus-log.md)); findings memo next
 - [ ] Structural signature spec (canonicalizer v0 implemented; written spec next)
-- [ ] Canonicalizer
+- [ ] Canonicalizer (v0 implemented and tested; 20-trace hand-check pending)
 - [ ] Retrieval + benchmark harness
 - [ ] Demo notebook
 - [ ] v0.1 release
