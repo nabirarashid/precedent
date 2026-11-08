@@ -33,3 +33,41 @@ canonical_tool prototype (sub-action lifting + bash argv split) applied to the 5
 - Universal scaffold motifs found: all runs open `bash.find → editor.view`; all close `editor.create → … → submit → bash.rm → submit`. Spec requirement #4: signatures must downweight scaffold-common motifs (structural stopwords) or cross-run similarity is dominated by the harness, not the behavior. Direct analog of the paper's lexical-overlap quarantine, one level up.
 - Spec requirement #5: bash canonicalization must handle compound commands — `bash.cd` is masking the true program in `cd X && python Y` patterns; split on `&&`/`;`/`|` and select the salient program.
 - Strategy differences are visible at signature level: the python-pinyin run shows a grep-heavy exploration phase and a `bash.python → editor.str_replace` test-fix loop, vs. cd-chained testing in the other four. Structure separates behaviors that share vocabulary.
+
+## Scoring design candidate (Oct 19): tiered structure-then-lexical
+
+Structural similarity selects candidates; lexical/semantic similarity reranks
+within the structurally-similar set only. Rationale: the paper shows lexical
+similarity is a misleading PRIMARY signal but an informative one (naive lexical
+reranker closed 26-36% of recoverable gap). Hypothesis for the M2 benchmark:
+structure-then-lexical > structure-only > lexical-only. Lexical features remain
+quarantined from the first stage; the two-stage design IS the quarantine.
+
+## Benchmark-contamination implications (Oct 22, verified)
+
+SWE-bench family has documented solution leakage (~33% of issues contain the fix;
+SWE-bench+, arXiv:2410.06992) and pre-training memorization (76% blind file-path
+accuracy; arXiv:2506.12286). Consequences:
+1. M2 retrieval benchmark: largely unaffected — we measure retrieval over traces,
+   not agent capability; structural gold is ours, not task success.
+2. v0.2 harness: HARD REQUIREMENT — post-cutoff tasks only (SWE-rebench /
+   SWE-bench Live), or memorization erases the headroom the experiment needs.
+3. Outcome labels: SWE-bench-family `resolved` carries ~31% weak-test
+   false-positive risk — record via outcome_source, treat as noisy.
+4. Parking lot: memorized runs likely have degenerate structure (beeline-to-file,
+   no exploration) — signatures as a contamination detector. Post-v0.1.
+
+## From corpus artifact 024 (Nov 8): diff design input
+
+- diff(run_a, run_b) should rank divergences by whether they heal: walk forward
+  from each candidate divergence; flag the earliest after which tool sequences
+  never re-converge. Transient != causal.
+- "Compare decisions, not states": the comparable unit is (context seen → action
+  chosen), args abstracted to load-bearing roles — independent practitioner
+  confirmation of role-driven arg typing (spec requirement #1).
+- Replay is not re-run: tool outputs drift between runs; any replay feature must
+  pin recorded responses.
+- Instrumentation blind spot (corpus 029 thread): absence of a failure event is
+  not success; outcome capture must treat "no event within window" as failure.
+- Compaction spans (langfuse #17967 convention discussion) map to kind=control;
+  watch for the convention landing.

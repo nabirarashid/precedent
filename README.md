@@ -71,7 +71,7 @@ python scripts/load_sample_traces.py  # streams 5 real traces, prints signatures
 - [x] Problem measured (arXiv:2609.01556)
 - [x] v0 trace record schema defined ([docs/trace-record-schema.md](docs/trace-record-schema.md)) and implemented ([src/precedent/records.py](src/precedent/records.py), tested)
 - [x] Real coding-agent traces loading into the schema; first legible structural signatures ([docs/notes/m1-spec-notes.md](docs/notes/m1-spec-notes.md))
-- [ ] Evidence study: headline-feature decision (in progress, [docs/evidence/corpus-log.md](docs/evidence/corpus-log.md))
+- [x] Evidence study: corpus complete (30 artifacts, closed Nov 8 — [docs/evidence/corpus-log.md](docs/evidence/corpus-log.md)); findings memo next
 - [ ] Structural signature spec
 - [ ] Canonicalizer
 - [ ] Retrieval + benchmark harness
