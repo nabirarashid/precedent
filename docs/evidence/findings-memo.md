@@ -32,7 +32,7 @@ Debugging-pain leads the raw count; the lead disappears under the conservative t
 2. "Your agent repeats mistakes because its memory retrieves what sounds related, not what worked... similarity tells you what looks related, recency tells you what is still current, and neither tells you what actually worked." (030, r/AI_Agents — the paper's Domain-2 finding, restated as a complaint by a stranger)
 3. "Today every filter matches a single observation. That makes it impossible to answer a common agent question: 'show me the runs in which tool X was called somewhere below the root.'" (016, langfuse discussions — structural trace query requested in the incumbent's own forum)
 4. OP: "is there a library or tool to do that?" Reply: "I don't know of any, I've always built it myself." (022, r/LangChain)
-5. "Nobody has a good way to find the earliest point where a good run and a bad run diverge... compare decisions rather than states: which tool, and the arguments that are load-bearing rather than incidental." (024, r/AI_Agents — a practitioner independently specifying structural signatures)
+5. "Nobody has a good way to find the earliest point where a good run and a bad run diverge... compare decisions rather than states: which tool, and the arguments that are load-bearing rather than incidental." (024, r/LangChain — a practitioner independently specifying structural signatures)
 
 ## Secondary findings
 

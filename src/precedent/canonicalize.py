@@ -79,10 +79,10 @@ def _discriminator(tool_name: str | None) -> str | None:
     return None
 
 
-# Naive on purpose (handoff: no shell grammar). Splits on &&, ||, |, ;
-# without regard to quoting, so `grep 'a|b'` splits wrongly; shlex is used
-# only to tokenize each segment.
-_SEGMENT_SPLIT = re.compile(r"&&|\|\|?|;")
+# Naive on purpose (handoff: no shell grammar). Splits sequential segments on
+# &&, ||, ; and pipeline components on | without regard to quoting, so
+# `grep 'a|b'` splits wrongly; shlex is used only to tokenize each piece.
+_SEQUENCE_SPLIT = re.compile(r"&&|\|\||;")
 
 
 def _argv(segment: str) -> list[str]:
@@ -94,9 +94,15 @@ def _argv(segment: str) -> list[str]:
 
 def canonical_bash(command: str) -> str:
     """Salient program of a bash command (spec req #3, #5): skip `cd` segments,
-    take the last remaining segment's argv[0] basename; `python -m X` keeps X.
-    If every segment is `cd`, fall back to the first segment's argv[0]."""
-    segments = [a for a in (_argv(s) for s in _SEGMENT_SPLIT.split(command)) if a]
+    take the last remaining sequential segment; if it is a pipeline, its FIRST
+    component's argv[0] basename (`find … | head` is a find, the pipe tail only
+    formats output); `python -m X` keeps X. If every segment is `cd`, fall back
+    to the first segment."""
+    segments = []  # each: argv of the segment's first pipeline component
+    for seg in _SEQUENCE_SPLIT.split(command):
+        components = [a for a in (_argv(c) for c in seg.split("|")) if a]
+        if components:
+            segments.append(components[0])
     if not segments:
         return "bash.?"
     non_cd = [a for a in segments if os.path.basename(a[0]) != "cd"]

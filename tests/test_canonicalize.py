@@ -32,6 +32,10 @@ def call(tool_name, i=0, **args) -> Step:
     (call("bash", command="cd /testbed && python repro.py"), "bash.python"),
     (call("bash", command="cd a && python -m pytest tests/"), "bash.python -m pytest"),
     (call("bash", command="cd /testbed; cd src"), "bash.cd"),  # all-cd fallback
+    # pipelines: the first component is the salient program, not the tail
+    (call("bash", command="cd x && find . -name y | head"), "bash.find"),
+    (call("bash", command="find /testbed -name x | sort"), "bash.find"),
+    (call("bash", command="pytest -x || cat log | tail"), "bash.cat"),
     (call("bash", command="/usr/bin/grep -rn foo ."), "bash.grep"),
     # undeclared tool passes through unchanged
     (call("goto", target="fridge 1"), "goto"),
