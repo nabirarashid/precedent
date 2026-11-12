@@ -73,7 +73,7 @@ python scripts/load_sample_traces.py  # streams 5 real traces, prints signatures
 - [x] Real coding-agent traces loading into the schema; first legible structural signatures ([docs/notes/m1-spec-notes.md](docs/notes/m1-spec-notes.md))
 - [x] Evidence study: corpus complete (30 artifacts, closed Nov 8 — [docs/evidence/corpus-log.md](docs/evidence/corpus-log.md)); findings memo next
 - [ ] Structural signature spec (canonicalizer v0 implemented; written spec next)
-- [ ] Canonicalizer (v0 implemented and tested; 20-trace hand-check pending)
+- [ ] Canonicalizer (v0 implemented, tested, and hand-checked 20/20; spec: [docs/spec/signature-spec-v0.md](docs/spec/signature-spec-v0.md))
 - [ ] Retrieval + benchmark harness
 - [ ] Demo notebook
 - [ ] v0.1 release

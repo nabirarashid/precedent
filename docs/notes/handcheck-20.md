@@ -41,7 +41,7 @@ instance: `django-money__django-money.835c1ab8.func_pm_ctrl_shuffle__viqnyl9u` �
 | 23 | `bash.rm` | `bash: rm /testbed/reproduce_issue.py` |
 | 24 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 02. marshmallow-code__apispec.8b421526.fu...
@@ -74,7 +74,7 @@ instance: `marshmallow-code__apispec.8b421526.func_pm_remove_assign__kdkrbg6a` �
 | 20 | `bash.rm` | `bash: rm /testbed/reproduce_issue.py /testbed/reproduce_issue_openapi2.py /testbed/tes…` |
 | 21 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 03. mozillazg__python-pinyin.e42dede5.fun...
@@ -118,7 +118,7 @@ instance: `mozillazg__python-pinyin.e42dede5.func_pm_remove_assign__vn346ybe` ·
 | 31 | `bash.rm` | `bash: rm /testbed/reproduce_error.py` |
 | 32 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 04. marshmallow-code__marshmallow.9716fc6...
@@ -154,7 +154,7 @@ instance: `marshmallow-code__marshmallow.9716fc62.func_pm_class_rm_funcs__e35a2b
 | 23 | `bash.rm` | `bash: rm /testbed/reproduce.py /testbed/edge_cases.py` |
 | 24 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 05. luozhouyang__python-string-similarity...
@@ -190,7 +190,7 @@ instance: `luozhouyang__python-string-similarity.115acaac.func_pm_remove_cond__g
 | 23 | `bash.rm` | `bash: rm /testbed/reproduce_sift4_error.py /testbed/test_sift4_edge_cases.py` |
 | 24 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 06. tkrajina__gpxpy.09fc46b3.func_pm_ctrl...
@@ -220,7 +220,7 @@ instance: `tkrajina__gpxpy.09fc46b3.func_pm_ctrl_shuffle__grix6fbc` · outcome: 
 | 17 | `bash.rm` | `bash: rm /testbed/reproduce_bug.py /testbed/test_edge_cases.py` |
 | 18 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 07. sloria__environs.73c372df.func_pm_rem...
@@ -254,7 +254,7 @@ instance: `sloria__environs.73c372df.func_pm_remove_assign__l35izs7k` · outcome
 | 21 | `bash.rm` | `bash: rm /testbed/reproduce_error.py /testbed/test_empty_string.py /testbed/test_none_…` |
 | 22 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 08. amueller__word_cloud.ec24191c.func_pm...
@@ -283,7 +283,7 @@ instance: `amueller__word_cloud.ec24191c.func_pm_ctrl_shuffle__3gl981ew` · outc
 | 16 | `bash.rm` | `bash: cd /testbed && rm -f *.png reproduce_error.py verify_fix.py test_edge_cases.py` |
 | 17 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 09. facelessuser__soupsieve.a8080d97.func...
@@ -320,7 +320,7 @@ instance: `facelessuser__soupsieve.a8080d97.func_pm_remove_cond__0nmyui1x` · ou
 | 24 | `bash.rm` | `bash: rm /testbed/reproduce_error.py /testbed/test_edge_cases.py /testbed/test_xml_cas…` |
 | 25 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 10. joke2k__faker.8b401a7d.func_pm_ctrl_i...
@@ -345,7 +345,7 @@ instance: `joke2k__faker.8b401a7d.func_pm_ctrl_invert_if__bompadwm` · outcome: 
 | 12 | `bash.python` | `bash: cd /testbed && python -c "from faker.cli import print_doc; print_doc('')"` |
 | 13 | `bash.python -m faker` | `bash: cd /testbed && python -m faker` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 11. Project-MONAI__MONAI.a09c1f08.func_pm...
@@ -382,7 +382,7 @@ instance: `Project-MONAI__MONAI.a09c1f08.func_pm_remove_assign__z47lyy02` · out
 | 24 | `bash.rm` | `bash: rm /testbed/reproduce_error.py /testbed/test_edge_cases.py` |
 | 25 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 12. pydata__patsy.a5d16484.func_pm_ctrl_i...
@@ -406,7 +406,7 @@ instance: `pydata__patsy.a5d16484.func_pm_ctrl_invert_if__kmfroe83` · outcome: 
 | 11 | `bash.rm` | `bash: rm /testbed/reproduce_bug.py /testbed/test_edge_cases.py` |
 | 12 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 13. pallets__jinja.ada0a9a6.func_pm_ctrl_...
@@ -456,7 +456,7 @@ instance: `pallets__jinja.ada0a9a6.func_pm_ctrl_invert_if__ik1ndo54` · outcome:
 | 37 | `bash.rm` | `bash: rm /testbed/debug_markup.py /testbed/reproduce_issue.py /testbed/test_edge_cases…` |
 | 38 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 14. google__textfsm.c31b6007.func_pm_ctrl...
@@ -480,7 +480,7 @@ instance: `google__textfsm.c31b6007.func_pm_ctrl_shuffle__hjtsbxdc` · outcome: 
 | 11 | `bash.rm` | `bash: rm /testbed/reproduce_error.py /testbed/test_sorting_edge_cases.py` |
 | 12 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 15. weaveworks__grafanalib.5c3b17ed.func_...
@@ -509,7 +509,7 @@ instance: `weaveworks__grafanalib.5c3b17ed.func_pm_remove_loop__nopdbhmj` · out
 | 16 | `bash.rm` | `bash: rm /testbed/reproduce_bug.py /testbed/test_edge_cases.py` |
 | 17 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 16. Suor__funcy.207a7810.func_pm_remove_a...
@@ -545,7 +545,7 @@ instance: `Suor__funcy.207a7810.func_pm_remove_assign__n7ae59f0` · outcome: **s
 | 23 | `bash.rm` | `bash: rm /testbed/reproduce_error.py /testbed/test_edge_cases.py` |
 | 24 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 17. jd__tenacity.0d40e76f.func_pm_ctrl_sh...
@@ -577,7 +577,7 @@ instance: `jd__tenacity.0d40e76f.func_pm_ctrl_shuffle__3ljvivv1` · outcome: **s
 | 19 | `bash.rm` | `bash: rm /testbed/reproduce_error.py /testbed/test_edge_cases.py` |
 | 20 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 18. dask__dask.5f61e423.func_pm_remove_co...
@@ -616,7 +616,7 @@ instance: `dask__dask.5f61e423.func_pm_remove_cond__qmm9c0fa` · outcome: **fail
 | 26 | `bash.rm` | `bash: rm /testbed/reproduce_error.py /testbed/test_edge_cases.py` |
 | 27 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 19. andialbrecht__sqlparse.e57923b3.func_...
@@ -648,7 +648,7 @@ instance: `andialbrecht__sqlparse.e57923b3.func_pm_remove_cond__5xn3knbz` · out
 | 19 | `bash.rm` | `bash: rm /testbed/reproduce_bug.py /testbed/test_regex_matching.py /testbed/pr_example…` |
 | 20 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## 20. scrapy__scrapy.35212ec5.func_pm_remov...
@@ -679,7 +679,7 @@ instance: `scrapy__scrapy.35212ec5.func_pm_remove_cond__jwp4lc0o` · outcome: **
 | 18 | `bash.rm` | `bash: rm /testbed/reproduce_issue.py /testbed/test_edge_cases.py` |
 | 19 | `submit` | `submit` |
 
-- [ ] signature faithful
+- [x] signature faithful
 - [ ] notes:
 
 ## Canonical token frequencies (all 20 runs)
