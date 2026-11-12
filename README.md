@@ -19,7 +19,7 @@ Thousands of recorded runs, retrievable in principle, unusable in practice.
 Three stages, built on trace formats teams already emit (OpenTelemetry GenAI conventions; Langfuse export):
 
 1. **Ingest** existing traces. No capture SDK, no agent framework, no migration.
-2. **Canonicalize** each run into a *structural signature*: the tool-call dependency graph with arguments abstracted to types and roles, plus retry and backtrack markers. The signature deliberately excludes the surface features the paper showed retrieval wrongly anchors on. See [docs/trace-record-schema.md](docs/trace-record-schema.md) for the v0 record schema.
+2. **Canonicalize** each run into a *structural signature*. In v0 that is the ordered sequence of canonical action tokens, one per tool call (`editor.view`, `bash.grep`, `bash.python -m pytest`), per [docs/spec/signature-spec-v0.md](docs/spec/signature-spec-v0.md). The planned next layer is the tool-call dependency graph with retry and backtrack markers: schema-ready in [src/precedent/records.py](src/precedent/records.py) (`depends_on`, `retry_of`), not yet inferred from traces. Either way, the signature excludes the surface features the paper showed retrieval wrongly anchors on; see [docs/trace-record-schema.md](docs/trace-record-schema.md) for the v0 record schema.
 3. **Index and compare** on signatures: structural similarity first, with lexical features quarantined into an explicit diagnostic ("this match is structural" vs. "this match is token overlap").
 
 A 30-artifact evidence study ([docs/evidence/findings-memo.md](docs/evidence/findings-memo.md)) points to `find_similar(run)` leading v0.1, with `cluster(failures)` as the fast-follow; the verdict is provisional pending practitioner conversations.
