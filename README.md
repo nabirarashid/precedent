@@ -26,14 +26,16 @@ A 30-artifact evidence study ([docs/evidence/findings-memo.md](docs/evidence/fin
 
 ## What a signature looks like
 
-The schema is implemented and loading real traces. Here is an actual SWE-agent run (Claude 3.7 Sonnet fixing a GitHub issue, from the public SWE-smith trajectory release), reduced to its structural skeleton by the exploration loader:
+The schema is implemented and loading real traces. Here is an actual SWE-agent run (Claude 3.7 Sonnet fixing a GitHub issue, from the public SWE-smith trajectory release), reduced to its structural skeleton by the v0 canonicalizer ([src/precedent/canonicalize.py](src/precedent/canonicalize.py)):
 
 ```
-bash.find → editor.view → bash.grep → editor.view → editor.view → editor.create
-→ bash.cd → editor.str_replace → bash.cd → editor.str_replace → … → submit
+bash.find → editor.view → bash.find → bash.find → editor.view → editor.view
+→ bash.grep → editor.view → editor.view → editor.view → editor.create
+→ bash.python → editor.str_replace → bash.python → … → editor.str_replace
+→ bash.python → submit → bash.rm → submit
 ```
 
-Locate, read, probe, edit, test, submit — the behavior is legible with every variable name, file path, and prompt token quarantined. Working notes from first contact with real traces, including five spec requirements this surfaced, live in [docs/notes/m1-spec-notes.md](docs/notes/m1-spec-notes.md).
+Locate, read, probe, edit, test, submit — the behavior is legible with every variable name, file path, and prompt token quarantined. The token rules are specified in [docs/spec/signature-spec-v0.md](docs/spec/signature-spec-v0.md); working notes from first contact with real traces, including five spec requirements this surfaced, live in [docs/notes/m1-spec-notes.md](docs/notes/m1-spec-notes.md).
 
 ## The eval ships with it
 
@@ -48,12 +50,18 @@ A library and CLI. Explicitly not: an observability platform, an agent framework
 ```
 src/precedent/records.py      # v0 schema as code: TraceRecord/Step with enforced
                               # structural / surface / metadata field quarantine
-tests/                        # schema guarantees as tests (quarantine fails closed)
-scripts/load_sample_traces.py # exploration: stream real SWE-agent trajectories
-                              # into TraceRecords, print proto-signatures
+src/precedent/canonicalize.py # v0 canonicalizer: TraceRecord -> structural Signature
+tests/                        # schema + canonicalizer guarantees as tests
+scripts/load_sample_traces.py # stream real SWE-agent trajectories into
+                              # TraceRecords, print their signatures
+scripts/make_handcheck.py     # generate the 20-run hand-check review sheet
 docs/trace-record-schema.md   # the v0 record schema (the ingest contract)
+docs/spec/signature-spec-v0.md # the v0 signature spec (spec of record)
 docs/notes/m1-spec-notes.md   # signature-spec requirements learned from real data
+docs/notes/handcheck-20.md    # M1 hand-check: 20 runs, reviewed 20/20 faithful
 docs/evidence/corpus-log.md   # M0 evidence study: demand-signal corpus + method
+docs/evidence/findings-memo.md # M0 findings memo and headline-feature verdict
+docs/journey.md               # dated session log
 ```
 
 To run it yourself:
@@ -61,7 +69,7 @@ To run it yourself:
 ```
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e . pytest
-python -m pytest tests/ -q          # 7 tests on the schema guarantees
+python -m pytest tests/ -q          # 30 tests: schema + canonicalizer
 pip install datasets
 python scripts/load_sample_traces.py  # streams 5 real traces, prints signatures
 ```
@@ -71,9 +79,9 @@ python scripts/load_sample_traces.py  # streams 5 real traces, prints signatures
 - [x] Problem measured (arXiv:2609.01556)
 - [x] v0 trace record schema defined ([docs/trace-record-schema.md](docs/trace-record-schema.md)) and implemented ([src/precedent/records.py](src/precedent/records.py), tested)
 - [x] Real coding-agent traces loading into the schema; first legible structural signatures ([docs/notes/m1-spec-notes.md](docs/notes/m1-spec-notes.md))
-- [x] Evidence study: corpus complete (30 artifacts, closed Nov 8 — [docs/evidence/corpus-log.md](docs/evidence/corpus-log.md)); findings memo next
-- [ ] Structural signature spec (canonicalizer v0 implemented; written spec next)
-- [ ] Canonicalizer (v0 implemented, tested, and hand-checked 20/20; spec: [docs/spec/signature-spec-v0.md](docs/spec/signature-spec-v0.md))
+- [x] Evidence study: corpus complete (30 artifacts, closed Nov 8 — [docs/evidence/corpus-log.md](docs/evidence/corpus-log.md)); findings memo written ([docs/evidence/findings-memo.md](docs/evidence/findings-memo.md)), verdict provisional pending practitioner conversations
+- [x] Structural signature spec v0, reviewed ([docs/spec/signature-spec-v0.md](docs/spec/signature-spec-v0.md))
+- [x] Canonicalizer v0: implemented, tested, and hand-checked 20/20 ([docs/notes/handcheck-20.md](docs/notes/handcheck-20.md)) — M1 complete
 - [ ] Retrieval + benchmark harness
 - [ ] Demo notebook
 - [ ] v0.1 release
