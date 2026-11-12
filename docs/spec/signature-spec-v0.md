@@ -17,8 +17,11 @@ anchored by it and falls below chance exactly when structure should dominate.
 ## 2. Inputs: the field quarantine
 
 Signatures are computed only from fields classified STRUCTURAL in
-`records.FIELD_CLASSES`. SURFACE fields (task_text, arg_values beyond the
-discriminator role, Step.text) are forbidden inputs; METADATA fields
+`records.FIELD_CLASSES`. Exactly two values are ever read out of
+arg_values: a tool's discriminator arg (R2), and bash's command string,
+which is read only to identify the salient program (R3-R5) and never kept
+as content. Every other SURFACE field (task_text, the rest of arg_values,
+Step.text) is a forbidden input; METADATA fields
 (timestamps, model name, run ids) are ignored. Any field not in the registry
 is not scorable: unknown fails closed. This is enforced by tests, not
 convention (`test_every_record_and_step_field_is_classified`).
