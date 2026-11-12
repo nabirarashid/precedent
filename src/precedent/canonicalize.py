@@ -23,7 +23,6 @@ Nothing in this module scores, indexes, or compares anything. That is M2.
 from __future__ import annotations
 
 import os
-import re
 import shlex
 from collections import Counter
 from dataclasses import dataclass, field
@@ -79,16 +78,55 @@ def _discriminator(tool_name: str | None) -> str | None:
     return None
 
 
-# Naive on purpose (handoff: no shell grammar). Splits sequential segments on
-# &&, ||, ; and pipeline components on | without regard to quoting, so
-# `grep 'a|b'` splits wrongly; shlex is used only to tokenize each piece.
-_SEQUENCE_SPLIT = re.compile(r"&&|\|\||;")
+def _split_command(command: str) -> list[list[str]]:
+    """Split a bash command into sequential segments (on &&, ||, ;), each a list
+    of pipeline components (on |). Separators inside single or double quotes,
+    or backslash-escaped, are ignored; an unbalanced quote makes the rest of
+    the command quoted. Still no shell grammar (no subshells, heredocs, $(...));
+    shlex is used only to tokenize each piece."""
+    segments: list[list[str]] = []
+    components: list[str] = []
+    buf: list[str] = []
+    quote: str | None = None
+    i, n = 0, len(command)
+    while i < n:
+        c = command[i]
+        if quote:
+            if c == "\\" and quote == '"' and i + 1 < n:
+                buf.append(command[i:i + 2])
+                i += 2
+                continue
+            if c == quote:
+                quote = None
+            buf.append(c)
+        elif c == "\\" and i + 1 < n:
+            buf.append(command[i:i + 2])
+            i += 2
+            continue
+        elif c in "'\"":
+            quote = c
+            buf.append(c)
+        elif command.startswith(("&&", "||"), i) or c == ";":
+            components.append("".join(buf))
+            segments.append(components)
+            components, buf = [], []
+            i += 1 if c == ";" else 2
+            continue
+        elif c == "|":
+            components.append("".join(buf))
+            buf = []
+        else:
+            buf.append(c)
+        i += 1
+    components.append("".join(buf))
+    segments.append(components)
+    return segments
 
 
 def _argv(segment: str) -> list[str]:
     try:
         return shlex.split(segment)
-    except ValueError:  # unbalanced quotes, often an artifact of the naive split
+    except ValueError:  # unbalanced quote in the command itself
         return segment.split()
 
 
@@ -99,8 +137,8 @@ def canonical_bash(command: str) -> str:
     formats output); `python -m X` keeps X. If every segment is `cd`, fall back
     to the first segment."""
     segments = []  # each: argv of the segment's first pipeline component
-    for seg in _SEQUENCE_SPLIT.split(command):
-        components = [a for a in (_argv(c) for c in seg.split("|")) if a]
+    for seg in _split_command(command):
+        components = [a for a in (_argv(c) for c in seg) if a]
         if components:
             segments.append(components[0])
     if not segments:

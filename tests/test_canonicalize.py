@@ -8,6 +8,7 @@ import pytest
 from precedent.canonicalize import (
     UNKNOWN_ROLE,
     Signature,
+    _split_command,
     arg_role,
     arg_roles,
     build_signature,
@@ -36,6 +37,12 @@ def call(tool_name, i=0, **args) -> Step:
     (call("bash", command="cd x && find . -name y | head"), "bash.find"),
     (call("bash", command="find /testbed -name x | sort"), "bash.find"),
     (call("bash", command="pytest -x || cat log | tail"), "bash.cat"),
+    # separators inside quotes are not separators (handcheck-20 run 10, steps 9/11/12)
+    (call("bash", command="""cd /testbed && python -c "from faker.cli import print_doc; print_doc('x')" """),
+     "bash.python"),
+    (call("bash", command="""grep -n "dump_only\\|load_only" schema.py"""), "bash.grep"),
+    (call("bash", command="""echo 'a && b' && sort f"""), "bash.sort"),
+    (call("bash", command="""cd /testbed && python -c "print(1); unbalanced"""), "bash.python"),
     (call("bash", command="/usr/bin/grep -rn foo ."), "bash.grep"),
     # undeclared tool passes through unchanged
     (call("goto", target="fridge 1"), "goto"),
@@ -43,6 +50,19 @@ def call(tool_name, i=0, **args) -> Step:
 ])
 def test_canonical_tool(step, expected):
     assert canonical_tool(step) == expected
+
+
+def test_quoted_pipe_is_not_a_pipeline():
+    """handcheck-20 run 04, steps 11/12: `\\|` inside a quoted grep pattern was
+    split as a pipe; the token was right only because grep came first."""
+    cmd = r'grep -n "dump_only\|load_only" /testbed/src/marshmallow/schema.py'
+    assert _split_command(cmd) == [[cmd]]
+    piped = cmd + " | head -20"
+    assert len(_split_command(piped)) == 1 and len(_split_command(piped)[0]) == 2
+
+
+def test_unbalanced_quote_quotes_the_rest():
+    assert _split_command("echo 'a; b && c") == [["echo 'a; b && c"]]
 
 
 def test_role_assignment_ignores_values():

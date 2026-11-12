@@ -155,7 +155,7 @@ instance: `marshmallow-code__marshmallow.9716fc62.func_pm_class_rm_funcs__e35a2b
 | 24 | `submit` | `submit` |
 
 - [ ] signature faithful
-- [ ] notes: (pre-filled, latent) #11, #12: `\|` inside the quoted grep pattern is split as a pipe; token is still correct (`bash.grep`) only because grep is the first component
+- [ ] notes:
 
 ## 05. luozhouyang__python-string-similarity...
 
@@ -327,7 +327,7 @@ instance: `facelessuser__soupsieve.a8080d97.func_pm_remove_cond__0nmyui1x` · ou
 
 instance: `joke2k__faker.8b401a7d.func_pm_ctrl_invert_if__bompadwm` · outcome: **failure** · 27 steps / 13 tool calls
 
-**Signature:** bash.find → editor.view → editor.create → bash.python → editor.str_replace → bash.python → editor.create → bash.python → bash.print_doc('non_existent_provider')" → editor.str_replace → bash.print_doc('non_existent_provider')" → bash.print_doc('')" → bash.python -m faker
+**Signature:** bash.find → editor.view → editor.create → bash.python → editor.str_replace → bash.python → editor.create → bash.python → bash.python → editor.str_replace → bash.python → bash.python → bash.python -m faker
 
 | # | canonical token | raw evidence |
 |---|---|---|
@@ -339,14 +339,14 @@ instance: `joke2k__faker.8b401a7d.func_pm_ctrl_invert_if__bompadwm` · outcome: 
 | 6 | `bash.python` | `bash: cd /testbed && python reproduce_error.py` |
 | 7 | `editor.create` | `str_replace_editor: command=create` |
 | 8 | `bash.python` | `bash: cd /testbed && python test_edge_cases.py` |
-| 9 | `bash.print_doc('non_existent_provider')"` | `bash: cd /testbed && python -c "from faker.cli import print_doc; print_doc('non_existe…` |
+| 9 | `bash.python` | `bash: cd /testbed && python -c "from faker.cli import print_doc; print_doc('non_existe…` |
 | 10 | `editor.str_replace` | `str_replace_editor: command=str_replace` |
-| 11 | `bash.print_doc('non_existent_provider')"` | `bash: cd /testbed && python -c "from faker.cli import print_doc; print_doc('non_existe…` |
-| 12 | `bash.print_doc('')"` | `bash: cd /testbed && python -c "from faker.cli import print_doc; print_doc('')"` |
+| 11 | `bash.python` | `bash: cd /testbed && python -c "from faker.cli import print_doc; print_doc('non_existe…` |
+| 12 | `bash.python` | `bash: cd /testbed && python -c "from faker.cli import print_doc; print_doc('')"` |
 | 13 | `bash.python -m faker` | `bash: cd /testbed && python -m faker` |
 
 - [ ] signature faithful
-- [ ] notes: (pre-filled, canonicalizer bug) #9, #11, #12: `;` inside the quoted `python -c "...; print_doc(...)"` is split as a sequence separator, yielding `bash.print_doc(...)"` → should be `bash.python` (the naive split ignores quoting; canonicalize.py comment documents this)
+- [ ] notes:
 
 ## 11. Project-MONAI__MONAI.a09c1f08.func_pm...
 
@@ -684,11 +684,11 @@ instance: `scrapy__scrapy.35212ec5.func_pm_remove_cond__jwp4lc0o` · outcome: **
 
 ## Canonical token frequencies (all 20 runs)
 
-434 tool calls, 16 distinct tokens. Input to the M2 structural-stopword discussion.
+434 tool calls, 14 distinct tokens. Input to the M2 structural-stopword discussion.
 
 | token | count | share |
 |---|---|---|
-| `bash.python` | 99 | 22.8% |
+| `bash.python` | 102 | 23.5% |
 | `editor.view` | 95 | 21.9% |
 | `editor.str_replace` | 60 | 13.8% |
 | `editor.create` | 47 | 10.8% |
@@ -699,8 +699,6 @@ instance: `scrapy__scrapy.35212ec5.func_pm_remove_cond__jwp4lc0o` · outcome: **
 | `bash.python -m pytest` | 4 | 0.9% |
 | `bash.python -m unittest` | 3 | 0.7% |
 | `bash.ls` | 2 | 0.5% |
-| `bash.print_doc('non_existent_provider')"` | 2 | 0.5% |
 | `bash.pip` | 2 | 0.5% |
 | `bash.head` | 1 | 0.2% |
-| `bash.print_doc('')"` | 1 | 0.2% |
 | `bash.python -m faker` | 1 | 0.2% |
