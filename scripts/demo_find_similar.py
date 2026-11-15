@@ -2,8 +2,8 @@
 
 Streams the first 100 SWE-smith trajectories (tool split), builds a
 SignatureStore, and for the first 3 runs prints the query signature and its
-top-3 structural neighbors (weighted motif scorer). Ends with the store's 10
-lowest-IDF tokens: the most scaffold-like motifs.
+top-3 structural neighbors (weighted n-gram motif scorer). Ends with the
+store's 10 lowest-weight n-grams: the most scaffold-like motifs.
 
 Run from the repo root (inside the venv):
     python scripts/demo_find_similar.py
@@ -32,7 +32,7 @@ def main() -> None:
     stream = load_dataset("SWE-bench/SWE-smith-trajectories", split="tool", streaming=True)
     records = [to_trace_record(row, i) for i, row in enumerate(islice(stream, N))]
     store = SignatureStore(records)
-    print(f"Store: {len(store)} runs, {len(store.doc_freq)} distinct tokens")
+    print(f"Store: {len(store)} runs, {len(store.doc_freq)} distinct n-grams")
 
     for rec in records[:QUERIES]:
         query = next(s for s in store.signatures if s.run_id == rec.run_id)
@@ -44,8 +44,8 @@ def main() -> None:
 
     idf = store.idf_weights()
     lowest = sorted(idf.items(), key=lambda kv: (kv[1], kv[0]))[:10]
-    print("\nLowest-IDF (most scaffold-like) tokens: "
-          + ", ".join(f"{t} ({w:.3f}, df={store.doc_freq[t]})" for t, w in lowest))
+    print("\nLowest-weight (most scaffold-like) n-grams: "
+          + ", ".join(f"{' → '.join(g)} ({w:.3f}, df={store.doc_freq[g]})" for g, w in lowest))
 
 
 if __name__ == "__main__":
