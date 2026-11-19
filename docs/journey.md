@@ -13,3 +13,11 @@ DECIDED: unit of structure is the n-gram, not the token; smoothed IDF floors com
 BLOCKED: nothing.
 NEXT: scoring design note + benchmark harness design (the three-way: structure-only vs lexical-only vs structure-then-lexical), then baselines.
 SCOPE FLAG: none. WATCHING: retrieval is outcome-blind by design right now; revisit when failures enter the store.
+
+## Nov 19 — benchmark design: two premises tested, two killed
+DONE: DoppelBench design note v0 drafted (gold by task identity, same-repo doppelgangers). Nebius audit parts 1+2 (babb04e, 9e76135): full 80k characterized (3,591 instances, 578 mixed-model, 42 repos with 10+ instances); BUT same-instance gold pairs are MORE word-similar than same-repo distractors (0.59 vs 0.36, holds even without issue text), so task-identity gold defeats the lexical trap. Family-gold premise test (0b016da): same-repo pairs do out-word same-family pairs (P=0.843, trap real), but structural score is blind to mutation family (P(A>B)=0.44; family vs random a wash), so family-gold dies too.
+DECIDED: gold is never filtered by wording (ecological gold, observational overlap split; methodological upgrade over the paper's constructed gold). Benchmark gold is outcome-agnostic (same task, any grade); outcome-matched reported as secondary. Failures stay retrievable by design.
+LEARNED: structure tracks workflow style, words track repo; relevance must be defined on an axis structure lives on.
+BLOCKED: SWE-track gold definition is open again, by evidence.
+NEXT: ALFWorld track premise test (paper's object/receptacle construction, 336 traces), and evaluate query-by-pattern as the SWE track (corpus quote 016's ask; programmatically checkable gold).
+SCOPE FLAG: none.
