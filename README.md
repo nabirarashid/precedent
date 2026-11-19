@@ -51,14 +51,22 @@ A library and CLI. Explicitly not: an observability platform, an agent framework
 src/precedent/records.py      # v0 schema as code: TraceRecord/Step with enforced
                               # structural / surface / metadata field quarantine
 src/precedent/canonicalize.py # v0 canonicalizer: TraceRecord -> structural Signature
-tests/                        # schema + canonicalizer guarantees as tests
+src/precedent/similarity.py   # v0 structural similarity: n-gram motifs, IDF
+                              # weighting, find_similar
+tests/                        # schema + canonicalizer + similarity guarantees as tests
 scripts/load_sample_traces.py # stream real SWE-agent trajectories into
                               # TraceRecords, print their signatures
 scripts/make_handcheck.py     # generate the 20-run hand-check review sheet
+scripts/demo_find_similar.py  # find_similar over 100 real runs, top-3 neighbors
+scripts/audit_nebius_dataset.py # dataset audit (first 20k rows) for benchmark design
+scripts/audit_nebius_part2.py # full-dataset counts + lexical overlap measurement
+scripts/premise_family_gold.py # mutation-family gold premise test (SWE-smith)
 docs/trace-record-schema.md   # the v0 record schema (the ingest contract)
 docs/spec/signature-spec-v0.md # the v0 signature spec (spec of record)
 docs/notes/m1-spec-notes.md   # signature-spec requirements learned from real data
 docs/notes/handcheck-20.md    # M1 hand-check: 20 runs, reviewed 20/20 faithful
+docs/notes/nebius-audit.md    # nebius dataset audit for benchmark design (parts 1+2)
+docs/notes/family-premise.md  # family-gold premise test: measurements + verdict
 docs/evidence/corpus-log.md   # M0 evidence study: demand-signal corpus + method
 docs/evidence/findings-memo.md # M0 findings memo and headline-feature verdict
 docs/journey.md               # dated session log
@@ -69,7 +77,7 @@ To run it yourself:
 ```
 python3 -m venv .venv && source .venv/bin/activate
 pip install -e . pytest
-python -m pytest tests/ -q          # 30 tests: schema + canonicalizer
+python -m pytest tests/ -q          # 46 tests: schema + canonicalizer + similarity
 pip install datasets
 python scripts/load_sample_traces.py  # streams 5 real traces, prints signatures
 ```
@@ -82,7 +90,8 @@ python scripts/load_sample_traces.py  # streams 5 real traces, prints signatures
 - [x] Evidence study: corpus complete (30 artifacts, closed Nov 8 — [docs/evidence/corpus-log.md](docs/evidence/corpus-log.md)); findings memo written ([docs/evidence/findings-memo.md](docs/evidence/findings-memo.md)), verdict provisional pending practitioner conversations
 - [x] Structural signature spec v0, reviewed ([docs/spec/signature-spec-v0.md](docs/spec/signature-spec-v0.md))
 - [x] Canonicalizer v0: implemented, tested, and hand-checked 20/20 ([docs/notes/handcheck-20.md](docs/notes/handcheck-20.md)) — M1 complete
-- [ ] Retrieval + benchmark harness
+- [x] Retrieval v0: `find_similar` over n-gram structural motifs with IDF weighting ([src/precedent/similarity.py](src/precedent/similarity.py)), demoed on real traces
+- [ ] Benchmark harness (in design: dataset audited — [docs/notes/nebius-audit.md](docs/notes/nebius-audit.md) — and two candidate gold definitions measured, [docs/notes/family-premise.md](docs/notes/family-premise.md))
 - [ ] Demo notebook
 - [ ] v0.1 release
 
