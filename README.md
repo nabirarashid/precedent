@@ -91,7 +91,7 @@ python scripts/load_sample_traces.py  # streams 5 real traces, prints signatures
 - [x] Structural signature spec v0, reviewed ([docs/spec/signature-spec-v0.md](docs/spec/signature-spec-v0.md))
 - [x] Canonicalizer v0: implemented, tested, and hand-checked 20/20 ([docs/notes/handcheck-20.md](docs/notes/handcheck-20.md)) — M1 complete
 - [x] Retrieval v0: `find_similar` over n-gram structural motifs with IDF weighting ([src/precedent/similarity.py](src/precedent/similarity.py)), demoed on real traces
-- [ ] Benchmark harness (in design: dataset audited — [docs/notes/nebius-audit.md](docs/notes/nebius-audit.md) — and two candidate gold definitions measured, [docs/notes/family-premise.md](docs/notes/family-premise.md))
+- [x] Benchmark harness, track 1 (ALFWorld): structural retrieval beats chance 3.4x on recall@1 while BM25 and MiniLM fall at or below chance (below chance on low-lexical-overlap gold); see [docs/results/track1-v0.md](docs/results/track1-v0.md)
 - [ ] Demo notebook
 - [ ] v0.1 release
 

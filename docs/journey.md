@@ -21,3 +21,11 @@ LEARNED: structure tracks workflow style, words track repo; relevance must be de
 BLOCKED: SWE-track gold definition is open again, by evidence.
 NEXT: ALFWorld track premise test (paper's object/receptacle construction, 336 traces), and evaluate query-by-pattern as the SWE track (corpus quote 016's ask; programmatically checkable gold).
 SCOPE FLAG: none.
+
+## Nov 19 (evening) — first benchmark results: the thesis holds
+DONE: ALFWorld track built end to end in one session: pinned fetch script (sha-verified, nothing vendored), AgentInstruct adapter (verb-only tokens, object/receptacle quarantined, 99.3% verb coverage), premise test PASSED (structure separates hard-case gold from cross-type, P=0.768; A~C confirms quarantine), then full harness (299 queries, 4 systems, exact hypergeometric chance, bootstrap CIs). Results: structural recall@1 0.498 vs 0.145 chance, MRR 0.660 vs 0.325; BM25/MiniLM at-or-below chance overall and WELL below chance on the low-overlap bucket (0.157/0.177 vs 0.351), reproducing the paper's failure mode on ecological gold; doppelganger pull 0.026 vs 0.049 chance for structural, ~3x chance for lexical systems.
+DECIDED: track 1 doppelganger = shares object or receptacle, different task type. Design note v1 committed (docs/design/benchmark-design.md).
+LEARNED: structure-then-BM25 rerank HURTS on this track (MRR 0.488 vs 0.660); the Oct 19 two-stage hypothesis is falsified here, possibly track-dependent.
+BLOCKED: nothing.
+NEXT: production embedder + incumbent (Mem0 or LangMem) baselines; SWE track design (query-by-pattern premise); then results writeup.
+SCOPE FLAG: none.
