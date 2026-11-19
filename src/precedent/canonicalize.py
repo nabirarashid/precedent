@@ -53,6 +53,22 @@ TOOL_ARG_ROLES: dict[str, dict[str, str]] = {
     },
     "bash": {"command": "shell_command"},
     "submit": {},
+    # ALFWorld/AgentInstruct action verbs (adapter: alfworld.py). The canonical
+    # token is the verb alone; object and receptacle names are SURFACE
+    # arg_values with these roles, invisible to the signature (spec R1).
+    "take": {"object": "object", "receptacle": "receptacle"},
+    "put": {"object": "object", "receptacle": "receptacle"},
+    "heat": {"object": "object", "receptacle": "receptacle"},
+    "cool": {"object": "object", "receptacle": "receptacle"},
+    "clean": {"object": "object", "receptacle": "receptacle"},
+    "go": {"receptacle": "receptacle"},
+    "open": {"receptacle": "receptacle"},
+    "close": {"receptacle": "receptacle"},
+    "toggle": {"object": "object"},
+    "examine": {"object": "object"},
+    "use": {"object": "object"},
+    "look": {},
+    "inventory": {},
 }
 
 # Short display names for canonical tokens; the prototype's signatures used
